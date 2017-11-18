@@ -1,0 +1,59 @@
+This is the README file for EECS 805, Lab #2.
+
+The following files are provided:
+
+    $ tree
+    .
+    ├── bits.c
+    ├── bits.h
+    ├── input.dat
+    ├── output.dat
+    ├── main.c
+    ├── Makefile
+    └── README
+
+1) Examine the GNU Makefile script.  Notice how I have added another source 
+   file.  Spend some time with this script and try to understand how this 
+   works and how the different object files are linked into a single executable.
+   Note that the executable is built into the 'bld' directory, and is a file 
+   called 'lab'.
+
+2) Consider the function main() in main.c.  Think about and understand what it 
+   does.
+
+3) See the function bit_reverse() in bits.c.  Modify it so that it returns a 
+   bit-reversed version of the byte provided as it's input argument.
+   For example if you send it the byte '0x13', it should return the byte '0xC8'.
+
+    0x1  0x3 -> 0xC  0x8
+   0001 0011 -> 1100 1000
+
+4) Test your function.  Input data is provided in the file input.dat.  
+   Concatenate that file to standard output and pipe the result to your 
+   executable, like this:
+
+   $ cat input.dat | bld/lab
+
+   Your executable should print to the screen the bit reversal of each byte
+   in the input file.  You will know you got it right when the output read
+   as text shows the same as that provided in the file output.dat.  Capture 
+   the output into the file myoutput.dat like so:
+
+   $ cat input.dat | bld/lab > myoutput.dat.
+
+   Include myoutput.dat in your file submission for this lab.
+
+5) Consider the function bitcount() provided in the file bits.c.  Examine 
+   what it does and understand it.  
+
+6) Write a new function, bitcount2() that takes an unsigned int as input
+   and returns an int as output, that counts the number of 1-bits in the 
+   input byte as per Exercise 2-9 in K&R.
+
+7) Submit your source code and output file as usual:
+
+   $ make clean
+   $ cd ..
+   $ tar czf <your last name>-lab2.tar.gz lab2
+
+End of file.

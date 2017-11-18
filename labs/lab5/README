@@ -1,0 +1,83 @@
+This is the README file for EECS 805, Lab #5.
+
+There are no source code files provided in this lab; you will have to do everything yourself.
+
+You are given the following test data:
+
+$ cat input.dat 
+2
+1
+3
+3
+4
+3
+
+In Unix the 'uniq' utility prints unique elements of a list:
+
+$ cat input.dat | uniq
+2
+1
+3
+4
+3
+
+Note that the uniq utility only works on adjacent elements.  You might like to
+do a global unique opertion.  In this case provide a sorted list to uniq, like so:
+
+$ cat input.dat | sort | uniq
+1
+2
+3
+4
+
+Now all of the duplicated 3's have been removed from the list.  Type 'sort --help' and
+'uniq --help' for more information on these utilities.
+
+
+ASSIGNMENT:
+1) Create 2 programs, mysort and myuniq, that duplicate the behavior of sort and uniq.
+   mysort prints a sorted version of the input list.
+   myuniq prints unique elements by looking a adjacent elements.
+
+2) Use input.dat to test your programs.  You should get the same result as above.  Test
+   your program like so:
+
+   $ cat input.dat | bld/mysort | bld/myuniq
+
+3) Provide all source code needed to build your programs.  Don't provide unused source code.
+
+4) I should be able to build everything needed by simply typing 'make clean; make' in your directory.
+
+5) Use pointers for all data manipulation operations.
+
+6) You can review example code from the internet, but the work you submit MUST BE YOUR OWN!
+   If you plagiarize you will get a "no grade" for this lab.
+
+7) You may treat all input as unsigned char; i.e. you don't have to deal with sorting strings.
+
+8) Make sure your functions all have comment headers that describe their function, inputs and outputs.
+
+9) Submit your source code as usual:
+
+   $ make clean
+   $ cd ..
+   $ tar czf <your last name>-lab5.tar.gz lab5
+
+
+
+NOTES:
+1) You don't need to worry about option processing.  For example, 'sort -r' sorts the list 
+   in descending order.  Just have mysort output an ascending (smallest to largest) sorted list.
+
+2) You will need to buffer the incoming data, as you won't know the complete list until you have 
+   received the EOF word.  You may use malloc for this task if you like, or you can just 
+   pre-allocate arrays to handle maximum 64 characters.
+
+3) You can use any sorting algorithm you like.  Some simple ones are the "insertion sort" and the "quick sort".
+   You are welcome to implement any other sorting algorithm, so long as it works, and is your own 
+   implementation.  Don't just call library functions.
+
+4) You don't have to provide help options for your programs, but extra credit if you do.
+
+
+End of file.

@@ -1,0 +1,109 @@
+This is the README file for EECS 805, Lab #4.
+
+This exercise focuses on code review and debugging.  A sample program similar to that given in Lab #3 is provided.  Your task will be to find bugs, by inspection, and by using the debugger.
+
+The following files are provided:
+
+    $ tree
+    .
+    ├── input.dat
+    ├── main.c
+    ├── Makefile
+    ├── README
+    ├── stats.c
+    └── stats.h
+    
+1) In the file stats.c, the function Buffer() is provided.  This function takes byte-wise data and stores it into an array of 16-bit words.  This simulates reading 16-bit data from a device, one byte at a time.  The last 16 readings are stored in the circular buffer; readings before the last 16 will be overwritten.  Study this function and understand how it works.
+
+2) A function DataCopyWithPrint() is provided.  This function copies the data stored in the static array 'Buf' and copies it to an array pointed to by it's input argument.  It also prints the copied data.
+
+3) Inspect this program.  Can you find any bugs?
+
+4) Build this program using 'make'.  Randomly generated data is provided in the file input.dat.  You should get the following output; check that it is correct.  Run your program like so:
+
+    $ bld/lab < input.dat
+    0xf42a
+    0x7742
+    0xa9f2
+    0x1d34
+    0x 309
+    0xc5a0
+    0x8f6e
+    0x9a66
+    0x5dfc
+    0x3619
+    0xc31c
+    0xdd55
+    0x5529
+    0xe6a6
+    0x8966
+    0x 3cb
+
+5) Note that you did not get the above output.  Let's use the GNU Debugger (gdb) tool to help us debug.  Invoke gdb with the binary that we compiled. It's a good thing that we have been using the '-g' option with gcc, which generates the debug symbols needed. 
+
+$ gdb bld/lab
+(gdb) 
+    
+Now we are at the gdb command prompt.  Some useful gdb commands are:
+
+    break   - set a break point
+    n       - execute next address, stepping over functions
+    s       - execute next address, stepping into functions
+    c       - continue running until the next breakpoint, or the program exits
+    print   - display the value of a variable
+
+Put a breakpoint at the Buffer() function.
+
+(gdb) break Buffer
+Breakpoint 1 at 0x4005c5: file stats.c, line 21.
+
+Run the program using the file input.dat as input.  The following is the output of a sample session.
+
+(gdb) run < input.dat
+Starting program: /home/ken/eecs805/labs/lab4/bld/lab < input.dat
+
+Breakpoint 1, Buffer (c=157 '\235') at stats.c:21
+21	    if( evenByte )
+(gdb) n
+25	        *pBuf = (unsigned short) c;
+(gdb) print pBuf
+$1 = (unsigned short *) 0x6010a0 <Buf>
+(gdb) print *pBuf
+$1 = 157
+(gdb) n
+40	    evenByte ^= 1;
+(gdb) n
+41	}
+(gdb) n
+main () at main.c:18
+18	    while( (c = getchar()) != EOF )
+(gdb) c
+Continuing.
+
+Breakpoint 1, Buffer (c=195 '\303') at stats.c:21
+21	    if( evenByte )
+(gdb) print pBuf
+$2 = (unsigned short *) 0x6010a0 <Buf>
+(gdb) n
+31	        *pBuf++ |= (unsigned short) (c << 8);
+(gdb) n
+32	        if( pBuf >= Buf + BUFFER_SIZE )
+(gdb) print pBuf
+$3 = (unsigned short *) 0x6010a2 <Buf+2>
+(gdb) print *pBuf)
+$4 = 0
+(gdb) print *(pBuf-1)
+$5 = 50077
+
+
+
+
+6) If you did not find the bug(s) by inspection, you should at least find it/them by using the debugger.  Fix the bug(s), build your code and test that it gives you the output specified in step 4 above.
+
+7) Submit your modified source code as usual:
+
+   $ make clean
+   $ cd ..
+   $ tar czf <your last name>-lab4.tar.gz lab4
+
+End of file.

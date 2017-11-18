@@ -1,0 +1,78 @@
+This is the README file for EECS 805, Lab #3.
+
+The following files are provided:
+
+    $ tree
+    .
+    ├── input.dat
+    ├── main.c
+    ├── Makefile
+    ├── README
+    ├── stats.c
+    └── stats.h
+    
+1) In the file stats.c, the function Buffer() is provided.  This function takes byte-wise data and stores it into an array of 16-bit words.  This simulates reading 16-bit data from a device, one byte at a time.  The last 16 readings are stored in the circular buffer; readings before the last 16 will be overwritten.  Study this function and understand how it works.  Note that array indexing is used to perform these operations.
+
+2) A function PrintBuf() is provided.  This function prints the contents of Buf to the standard output.  It uses a pointer to do this.
+
+3) Build this program using 'make'.  Randomly generated data is provided in the file input.dat.  You should get the following output; check that it is correct.  Run your program like so:
+
+    $ cat input.dat | bld/lab 
+    0xf42a
+    0x7742
+    0xa9f2
+    0x1d34
+    0x 309
+    0xc5a0
+    0x8f6e
+    0x9a66
+    0x5dfc
+    0x3619
+    0xc31c
+    0xdd55
+    0x5529
+    0xe6a6
+    0x8966
+    0x 3cb
+
+4) Write another function which is equivalent to Buffer(), but does not use any array indexing.  Instead perform all operations on the buffer using a pointer.  Check that the output is still correct for your new function by calling it from main().
+
+5) In the file stats.h, a structure type definition called data_storage_t is defined.  This structure contains 16-bit data and a 32-bit time stamp.  In stats.c, define a new static array of type data_storage_t.  Create a new function in stats.c to capture the 16-bit data from bytes in the same way that Buffer() does.  Store this data in the .buf field of the data_storage_t array.  Also populate the .timeStamp field with the number of seconds since boot for each of 16 data points.  Also use pointer operations for this.  Hint: remember how to access pointers to structure members.
+
+Time stamp ONLY each 16-bit word, not each byte.
+
+NOTE that you can get the number of seconds since Epoch with the time() function like so:
+
+#include <time.h>
+
+printf( "seconds = %d\n", time(NULL) );  // for example
+
+6) Write another function which is equivalent to PrintBuf(), but prints a message in the following format:
+
+    $ cat input.dat | bld/lab 
+    time: 0x579a815f, data: 0xf42a
+    time: 0x579a815f, data: 0x7742
+    time: 0x579a815f, data: 0xa9f2
+    time: 0x579a815f, data: 0x1d34
+    time: 0x579a815f, data: 0x 309
+    time: 0x579a815f, data: 0xc5a0
+    time: 0x579a815f, data: 0x8f6e
+    time: 0x579a815f, data: 0x9a66
+    time: 0x579a815f, data: 0x5dfc
+    time: 0x579a815f, data: 0x3619
+    time: 0x579a815f, data: 0xc31c
+    time: 0x579a815f, data: 0xdd55
+    time: 0x579a815f, data: 0x5529
+    time: 0x579a815f, data: 0xe6a6
+    time: 0x579a815f, data: 0x8966
+    time: 0x579a815f, data: 0x 3cb
+
+Note that your time stamp will be different than mine shown here.  For this function, DO NOT use pointer operations, but instead use array indexing.  Note how accessing structure members this way is syntactically different than when you were using pointers to access them.  Capture this output in the file output.dat.  Include this file in your submission for this lab.
+
+7) Submit your source code and output file as usual:
+
+   $ make clean
+   $ cd ..
+   $ tar czf <your last name>-lab3.tar.gz lab3
+
+End of file.
